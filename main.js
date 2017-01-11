@@ -1,5 +1,6 @@
 var canvas = document.getElementById('canvas');
-var size = Math.min(window.innerWidth, 500);
+var max = 400;
+var size = Math.min(window.innerWidth, max);
 var ctx = canvas.getContext('2d');
 var img = document.createElement('img');
 var button = document.getElementById('share');
@@ -73,14 +74,17 @@ thought.addEventListener('input', evt => {
 
   ctx.fillStyle = '#000000'
   ctx.font = fontSize + 'px PingFangTC-Regular, sans-serif';
+  ctx.save();
+  ctx.rotate(-3 * Math.PI / 180)
   evt.target.value.split('\n').forEach((line, index) => {
-    ctx.fillText(line, 0.35 * size, 0.6 * size + (fontSize * index * 1.2));
+    ctx.fillText(line, 0.28 * size, 0.61 * size + (fontSize * index * 1.2));
   });
+  ctx.restore();
 })
 
 window.addEventListener('resize', function (){
   console.log('window width', window.innerWidth);
-  size = Math.min(window.innerWidth, 500);
+  size = Math.min(window.innerWidth, max);
   canvas.setAttribute('width', size);
   canvas.setAttribute('height', size);
 
