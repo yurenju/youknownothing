@@ -1,0 +1,16 @@
+body {
+  margin: 0;
+}
+
+.buttons {
+  text-align: center;
+  margin: 15px;
+}
+
+.hide {
+  display: none;
+}
+
+.container {
+  max-width: 600px;
+}
