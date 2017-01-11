@@ -41,9 +41,9 @@ function postImageToFacebook( authToken, filename, mimeType, imageData, message 
       try {
         var res = JSON.parse(xhr.responseText);
         if (res.id) {
-          document.querySelector('.link').classList.remove('hide');
           var link = document.getElementById('shared-link');
           link.setAttribute('href', 'https://www.facebook.com/photo.php?fbid=' + res.id);
+          $('.shared-link-modal').modal({show: true});
         }
       }
       catch(e) {
