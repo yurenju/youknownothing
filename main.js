@@ -96,8 +96,10 @@ window.addEventListener('resize', function (){
 function setupFb() {
   FB.getLoginStatus(function(response) {
     var login = false;
+    var token;
     if (response.status === 'connected') {
       login = true;
+      token = response.authResponse.accessToken;
       button.innerText = '分享到 Facebook';
     }
     else {
@@ -109,12 +111,13 @@ function setupFb() {
         var c = canvas.toDataURL('image/png');
         var encodedPng = c.substring(c.indexOf(',')+1,c.length);
         var decodedPng = Base64Binary.decode(encodedPng);
-        postImageToFacebook(response.authResponse.accessToken, 'test.png', 'image/png', decodedPng, '')
+        postImageToFacebook(token, 'test.png', 'image/png', decodedPng, '')
       }
       else {
         FB.login(response => {
           login = response.status === 'connected'
           if (login) {
+            token = response.authResponse.accessToken;
             button.innerText = '分享到 Facebook';
           }
         }, {scope: 'publish_actions'});
