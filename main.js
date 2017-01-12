@@ -112,9 +112,6 @@ function setupFb() {
         var textwidth = ctx.measureText(msg).width;
         ctx.fillText('小孩，不是你的工具。', (width - textwidth) / 2, 25);
 
-        var c = canvas.toDataURL('image/png');
-        var encodedPng = c.substring(c.indexOf(',')+1,c.length);
-        var decodedPng = Base64Binary.decode(encodedPng);
         var msg = ['小孩，不是你的工具。',
                    '　',
                    '插圖：謝東霖 Hsieh Tung Lin',
