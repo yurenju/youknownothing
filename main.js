@@ -46,6 +46,7 @@ function postImageToFacebook( authToken, filename, mimeType, imageData, message 
           link.setAttribute('href', 'https://www.facebook.com/photo.php?fbid=' + res.id);
           $('.shared-link-modal').modal({show: true});
           ga('send', 'event', 'Photos', 'upload');
+          button.classList.remove('disabled');
         }
       }
       catch(e) {
@@ -102,6 +103,7 @@ function setupFb() {
 
     button.addEventListener('click', evt => {
       if (login) {
+        button.classList.add('disabled');
         update(35);
         ctx.fillRect(0, 0, width, 33);
         ctx.fillStyle = '#FFFFFF';
