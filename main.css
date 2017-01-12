@@ -8,5 +8,20 @@ body {
 }
 
 .container {
-  max-width: 500px;
+  max-width: 600px;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  text-align: center;
+  background-color: #000000;
+  color: white;
+  width: 100%;
+  padding: 3px;
+}
+
+.footer a {
+  color: white;
+  text-decoration: underline;
 }

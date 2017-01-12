@@ -1,6 +1,8 @@
 var canvas = document.getElementById('canvas');
-var max = 400;
-var size = Math.min(window.innerWidth, max);
+var max = 500;
+var ratio = 1536 / 2046;
+var width = Math.min(window.innerWidth, max);
+var height = width * ratio;
 var ctx = canvas.getContext('2d');
 var img = document.createElement('img');
 var button = document.getElementById('share');
@@ -55,42 +57,41 @@ function postImageToFacebook( authToken, filename, mimeType, imageData, message 
     xhr.sendAsBinary( formData );
 }
 
-img.src = 'original.png';
+img.src = 'original.jpg';
 img.onload = function () {
   loaded = true;
-  ctx.drawImage(img, 0, 0, size, size);
+  ctx.drawImage(img, 0, 0, width, height);
 }
 
-var thought = document.getElementById('thought');
-thought.addEventListener('input', evt => {
-  thoughtText = evt.target.value;
-  var fontSize = 0.05 * size;
+function updateText(val) {
+  thoughtText = val;
+  var fontSize = 0.05 * width;
   ctx.fillStyle = 'white';
-  ctx.fillRect(0, 0, size, size);
+  ctx.fillRect(0, 0, width, height);
 
   if (loaded) {
-    ctx.drawImage(img, 0, 0, size, size);
+    ctx.drawImage(img, 0, 0, width, height);
   }
 
   ctx.fillStyle = '#000000'
   ctx.font = fontSize + 'px PingFangTC-Regular, sans-serif';
   ctx.save();
-  ctx.rotate(-3 * Math.PI / 180)
-  evt.target.value.split('\n').forEach((line, index) => {
-    ctx.fillText(line, 0.28 * size, 0.61 * size + (fontSize * index * 1.2));
+  thoughtText.split('\n').forEach((line, index) => {
+    ctx.fillText(line, 0.28 * width, 0.40 * width + (fontSize * index * 1.2));
   });
   ctx.restore();
-})
+}
+
+var thought = document.getElementById('thought');
+thought.addEventListener('input', evt => updateText(evt.target.value));
 
 window.addEventListener('resize', function (){
   console.log('window width', window.innerWidth);
-  size = Math.min(window.innerWidth, max);
-  canvas.setAttribute('width', size);
-  canvas.setAttribute('height', size);
-
-  if (loaded) {
-    ctx.drawImage(img, 0, 0, size, size);
-  }
+  width = Math.min(window.innerWidth, max);
+  height = width * ratio;
+  canvas.setAttribute('width', width);
+  canvas.setAttribute('height', height);
+  updateText(thought.value);
 });
 
 function setupFb() {
@@ -111,7 +112,7 @@ function setupFb() {
         var c = canvas.toDataURL('image/png');
         var encodedPng = c.substring(c.indexOf(',')+1,c.length);
         var decodedPng = Base64Binary.decode(encodedPng);
-        postImageToFacebook(token, 'test.png', 'image/png', decodedPng, '')
+        postImageToFacebook(token, 'thought.png', 'image/png', decodedPng, '')
       }
       else {
         FB.login(response => {
@@ -126,8 +127,8 @@ function setupFb() {
   });
 }
 
-canvas.setAttribute('width', size);
-canvas.setAttribute('height', size);
+canvas.setAttribute('width', width);
+canvas.setAttribute('height', height);
 
 
 window.fbAsyncInit = function() {
