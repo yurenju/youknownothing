@@ -140,7 +140,7 @@ img.onload = function () {
 }
 
 thought.addEventListener('input', evt => updateText(evt.target.value));
-window.addEventListener('resize', update);
+window.addEventListener('resize', evt => update());
 
 window.fbAsyncInit = function() {
   FB.init({
