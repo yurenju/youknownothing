@@ -8,7 +8,8 @@ body {
 }
 
 .container {
-  max-width: 600px;
+  max-width: 500px;
+  padding: 0;
 }
 
 .footer {
@@ -24,4 +25,17 @@ body {
 .footer a {
   color: white;
   text-decoration: underline;
+}
+
+.header {
+  color: white;
+  background-color: black;
+  padding: 10px;
+  border-bottom: 1px white solid;
+}
+
+.header h1 {
+  text-align: center;
+  font-size: 20px;
+  margin: 0;
 }
