@@ -146,6 +146,7 @@ downloadButton.addEventListener('click', function(evt) {
   applyInformation();
   canvas.toBlob(function(blob) {
       saveAs(blob, "youknownothing.png");
+      update();
   });
 });
 
