@@ -116,7 +116,7 @@ function setupFb() {
                    '　',
                    '插圖：謝東霖 Hsieh Tung Lin',
                    '產生自己的圖片： https://yurenju.github.io/youknownothing'];
-        postImageToFacebook(token, 'thought.png', 'image/png', canvas.toDataURL('image/png'), msg.join('\n'));
+        postImageToFacebook(token, 'thought.png', 'image/png', canvas.toDataURL('image/png'), '');
         update();
       }
       else {
