@@ -78,25 +78,35 @@ function updateText(val, offset) {
   ctx.restore();
 }
 
-function update(offset) {
-  offset = offset || 0;
+function update(offsetTop, offsetBottom) {
+  offsetTop = offsetTop || 0;
+  offsetBottom = offsetBottom || 0;
   console.log('window width', window.innerWidth);
   width = Math.min(window.innerWidth, max);
   height = width * img.naturalHeight / img.naturalWidth;
   canvas.setAttribute('width', width);
-  canvas.setAttribute('height', height + offset);
+  canvas.setAttribute('height', height + offsetTop + offsetBottom);
   ctx = canvas.getContext('2d');
-  updateText(thought.value, offset);
+  updateText(thought.value, offsetTop);
 }
 
 function applyInformation() {
-  update(35);
-  ctx.fillRect(0, 0, width, 33);
+  var offsetTop = 35;
+  var offsetBottom = 20;
+  update(offsetTop, offsetBottom);
+  ctx.fillRect(0, 0, width, offsetTop - 2);
+  ctx.fillRect(0, offsetTop +  height + 2, width, offsetBottom);
+
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '20px PingFangTC-Regular, sans-serif';
   var msg = '小孩，不是你的工具。';
   var textwidth = ctx.measureText(msg).width;
-  ctx.fillText('小孩，不是你的工具。', (width - textwidth) / 2, 25);
+  ctx.fillText(msg, (width - textwidth) / 2, 25);
+
+  ctx.font = '12px PingFangTC-Regular, sans-serif';
+  msg = 'https://bit.ly/kidnottool';
+  textwidth = ctx.measureText(msg).width;
+  ctx.fillText(msg, (width - textwidth) / 2, offsetTop + height + offsetBottom - 4);
 }
 
 function setupFb() {
@@ -116,11 +126,7 @@ function setupFb() {
       if (login) {
         shareButton.classList.add('disabled');
         applyInformation();
-        var msg = ['小孩，不是你的工具。',
-                   '　',
-                   '插圖：謝東霖 Hsieh Tung Lin',
-                   '產生自己的圖片： https://yurenju.github.io/youknownothing'];
-        postImageToFacebook(token, 'thought.png', 'image/png', canvas.toDataURL('image/png'), '');
+        postImageToFacebook(token, 'thought.png', 'image/png', canvas.toDataURL('image/png'), thoughtText);
         update();
       }
       else {
