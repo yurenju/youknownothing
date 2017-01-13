@@ -4,7 +4,8 @@ var width = Math.min(window.innerWidth, max);
 var height = width;
 var ctx = canvas.getContext('2d');
 var img = document.createElement('img');
-var button = document.getElementById('share');
+var shareButton = document.getElementById('share');
+var downloadButton = document.getElementById('download');
 var loaded = false;
 var thoughtText = '';
 var thought = document.getElementById('thought');
@@ -46,7 +47,7 @@ function postImageToFacebook( authToken, filename, mimeType, imageData, message 
           link.setAttribute('href', 'https://www.facebook.com/photo.php?fbid=' + res.id);
           $('.shared-link-modal').modal({show: true});
           ga('send', 'event', 'Photos', 'upload');
-          button.classList.remove('disabled');
+          shareButton.classList.remove('disabled');
         }
       }
       catch(e) {
@@ -88,6 +89,16 @@ function update(offset) {
   updateText(thought.value, offset);
 }
 
+function applyInformation() {
+  update(35);
+  ctx.fillRect(0, 0, width, 33);
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = '20px PingFangTC-Regular, sans-serif';
+  var msg = '小孩，不是你的工具。';
+  var textwidth = ctx.measureText(msg).width;
+  ctx.fillText('小孩，不是你的工具。', (width - textwidth) / 2, 25);
+}
+
 function setupFb() {
   FB.getLoginStatus(function(response) {
     var login = false;
@@ -95,23 +106,16 @@ function setupFb() {
     if (response.status === 'connected') {
       login = true;
       token = response.authResponse.accessToken;
-      button.innerText = '分享到 Facebook';
+      shareButton.innerText = '分享到 Facebook';
     }
     else {
-      button.innerText = '連接 Facebook 分享此圖';
+      shareButton.innerText = '連接 Facebook 分享此圖';
     }
 
-    button.addEventListener('click', evt => {
+    shareButton.addEventListener('click', evt => {
       if (login) {
-        button.classList.add('disabled');
-        update(35);
-        ctx.fillRect(0, 0, width, 33);
-        ctx.fillStyle = '#FFFFFF';
-        ctx.font = '20px PingFangTC-Regular, sans-serif';
-        var msg = '小孩，不是你的工具。';
-        var textwidth = ctx.measureText(msg).width;
-        ctx.fillText('小孩，不是你的工具。', (width - textwidth) / 2, 25);
-
+        shareButton.classList.add('disabled');
+        applyInformation();
         var msg = ['小孩，不是你的工具。',
                    '　',
                    '插圖：謝東霖 Hsieh Tung Lin',
@@ -124,7 +128,7 @@ function setupFb() {
           login = response.status === 'connected'
           if (login) {
             token = response.authResponse.accessToken;
-            button.innerText = '分享到 Facebook';
+            shareButton.innerText = '分享到 Facebook';
           }
         }, {scope: 'publish_actions'});
       }
@@ -137,6 +141,13 @@ img.onload = function () {
   loaded = true;
   update();
 }
+
+downloadButton.addEventListener('click', function(evt) {
+  applyInformation();
+  canvas.toBlob(function(blob) {
+      saveAs(blob, "youknownothing.png");
+  });
+});
 
 thought.addEventListener('input', evt => updateText(evt.target.value));
 window.addEventListener('resize', evt => update());

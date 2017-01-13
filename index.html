@@ -27,7 +27,8 @@
         <textarea placeholder="小孩說話，大人決定？" id="thought" class="form-control" rows="3"></textarea>
       </form>
       <div class="buttons">
-        <a href="#" class="btn btn-primary" role="button" id="share">分享到 Facebook</a>
+        <a href="#" class="btn btn-default" role="button" id="download">下載</a>
+        <a href="#" class="btn btn-primary disabled" role="button" id="share">分享到 Facebook</a>
       </div>
       <div class="alert alert-danger" role="alert">
         抱歉，Facebook 分享功能因技術問題暫時無法使用，正在聯絡 Facebook 尋求解決方案。
@@ -61,6 +62,8 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="canvas-toBlob.js"></script>
+    <script src="FileSaver.min.js"></script>
     <script src="hidpi-canvas.min.js"></script>
     <script src="base64-binary.js"></script>
     <script src="main.js"></script>
